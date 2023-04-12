@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "513278837130",
+    "project_id": "taste-of-africa-ffb16",
+    "storage_bucket": "taste-of-africa-ffb16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513278837130:android:0b1a2b4495cc4ff1e90873",
+        "android_client_info": {
+          "package_name": "com.example.my_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513278837130-n8f4gen8q742m58rt9ie65la9kfsg466.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRU8ZRB7ZJGWIYKnLLFrUQhkoCOrQYlmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513278837130-n8f4gen8q742m58rt9ie65la9kfsg466.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
