@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
                 //hello again
 
                 const Text(
-                  'Yello Nathan',
+                  'Hello !',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 45,
@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
                 ),
 
                 const Text(
-                  'Welcome back, you been missed',
+                  'Sign up to access your home page',
                   style: TextStyle(
                     fontSize: 20,
                   ),
