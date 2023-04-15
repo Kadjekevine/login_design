@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/utils/color.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,12 +15,69 @@ class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
 
   Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
+    print("Signing in...");
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
 
-    print('ok');
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'user-not-found') {
+        wrongEmailMessage();
+      } else if (e.code == 'wrong-password') {
+        wrongPasswordMessage();
+      } else {
+        othersMessage();
+      }
+    }
+  }
+
+  //wrong email
+  void wrongEmailMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Incorrect email'),
+        );
+      },
+    );
+  }
+
+  //wrong passsword
+  void wrongPasswordMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Incorrect password'),
+        );
+      },
+    );
+  }
+
+  //wrong others
+  void othersMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Error'),
+        );
+      },
+    );
   }
 
   @override
@@ -66,21 +124,20 @@ class _LoginState extends State<Login> {
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20.0),
-                      child: TextField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Email',
-                        ),
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
                       ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: primary),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintText: 'Email',
+                      fillColor: Colors.grey[200],
+                      filled: true,
                     ),
                   ),
                 ),
@@ -100,7 +157,7 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.deepPurple),
+                        borderSide: BorderSide(color: primary),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       hintText: 'Password',
@@ -113,18 +170,18 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 10),
 
                 //Sign up button
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: GestureDetector(
-                        onTap: signIn,
+                GestureDetector(
+                  onTap: signIn,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: primary,
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Center(
                         child: const Text(
                           'Sign up',
                           style: TextStyle(
@@ -142,11 +199,12 @@ class _LoginState extends State<Login> {
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       'Not a member?',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
                     ),
                     SizedBox(
@@ -155,8 +213,9 @@ class _LoginState extends State<Login> {
                     Text(
                       'Register now',
                       style: TextStyle(
-                        color: Colors.deepPurple,
+                        color: primary,
                         fontWeight: FontWeight.bold,
+                        fontSize: 19,
                       ),
                     ),
                   ],
