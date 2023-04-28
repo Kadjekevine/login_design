@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/utils/color.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  final VoidCallback showRegisterPage;
+  const Login({Key? key, required this.showRegisterPage}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -15,8 +16,6 @@ class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
 
   Future signIn() async {
-    print("Signing in...");
-
     showDialog(
       context: context,
       builder: (context) {
@@ -181,9 +180,9 @@ class _LoginState extends State<Login> {
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Center(
-                        child: const Text(
-                          'Sign up',
+                      child: const Center(
+                        child: Text(
+                          'Sign in',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -200,22 +199,23 @@ class _LoginState extends State<Login> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Not a member?',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      'Register now',
-                      style: TextStyle(
-                        color: primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 19,
+                    const SizedBox(height: 8),
+                    GestureDetector(
+                      onTap: widget.showRegisterPage,
+                      child: Text(
+                        'Register now',
+                        style: TextStyle(
+                          color: primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                        ),
                       ),
                     ),
                   ],
