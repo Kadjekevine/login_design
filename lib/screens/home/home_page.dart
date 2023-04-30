@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/screens/home/recipe.dart';
@@ -12,8 +13,27 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+// final db = FirebaseFirestore.instance;
+
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
+
+  List<String> docIDs = [];
+
+  Future getFoods() async {
+    await FirebaseFirestore.instance.collection('foods').get().then(
+          (snapshot) => snapshot.docs.forEach((element) {
+            print(element.reference);
+            docIDs.add(element.reference.id);
+          }),
+        );
+  }
+
+  @override
+  void initState() {
+    getFoods();
+    super.initState();
+  }
 
   int indexx = 0;
   List category = ['All', 'Lunch', 'Dinner', 'BreakFast'];
